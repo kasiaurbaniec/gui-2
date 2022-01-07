@@ -124,7 +124,7 @@ public class Biblioteka extends JFrame implements Serializable {
         });
         // Pozycja menu: usuń czytelnika
         JMenuItem removeReaderMenuItem = new JMenuItem("Usuń czytelnika");
-        removeReaderMenuItem.setMnemonic(KeyEvent.VK_C);
+        removeReaderMenuItem.setMnemonic(KeyEvent.VK_T);
         // Podpiecie akcji pod "Usuń czytelnika"
         removeReaderMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
@@ -166,8 +166,20 @@ public class Biblioteka extends JFrame implements Serializable {
             }
         });
 
+        // Pozycja menu: Zwróć ksiazke
+        JMenuItem returnBookMenuItem = new JMenuItem("Zwróć ksiazkę");
+        returnBookMenuItem.setMnemonic(KeyEvent.VK_R);
+        // Podpiecie akcji pod "Zwróć ksiazke"
+        returnBookMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                ReturnDialog ad = new ReturnDialog(bib);
+                ad.setVisible(true);
+            }
+        });
+
         // Dodanie pozycji do menu "Biblioteka"
         lib.add(lendBookMenuItem);
+        lib.add(returnBookMenuItem);
         lib.addSeparator();
         lib.add(newReaderMenuItem);
         lib.add(newBookMenuItem);
@@ -291,6 +303,9 @@ public class Biblioteka extends JFrame implements Serializable {
 
 	public void usunWypozyczenie(Wypozyczenie w) {
 		wypozyczenia.remove(w);
+    Ksiazka k = w.getKsiazka();
+    int ilośćWyozyczonychEgz = k.getIlosc_wypozyczonych_egzemplarzy();
+    k.setIlosc_wypozyczonych_egzemplarzy(ilośćWyozyczonychEgz - 1);
 	}
 	
 	public boolean wypozyczKsiazkeCzytelnikowi(Ksiazka k, Czytelnik c) {
