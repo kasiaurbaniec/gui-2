@@ -11,12 +11,12 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
-class ReaderInformationDialog extends JDialog {
+class BookInformationDialog extends JDialog {
 
   private static final long serialVersionUID = 9092551044456132039L;
 	private Biblioteka bib;
   
-  public ReaderInformationDialog(Biblioteka bib) {
+  public BookInformationDialog(Biblioteka bib) {
   this.bib = bib;	
     initUI();
   }
@@ -24,7 +24,7 @@ class ReaderInformationDialog extends JDialog {
   public final void initUI() {
     setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
     setModalityType(ModalityType.APPLICATION_MODAL);  
-    setTitle("Informacje o czytelnikach");
+    setTitle("Informacje o książkach");
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     setLocationRelativeTo(null);
     setSize(500, 350);
@@ -33,36 +33,36 @@ class ReaderInformationDialog extends JDialog {
       textArea.setMaximumSize(new Dimension(400, 200));
       textArea.setEditable(false);
 
-    add(Box.createRigidArea(new Dimension(0, 6)));// 6 pixeli w pionie
+    add(Box.createRigidArea(new Dimension(0, 6)));
 
-    JLabel fname = new JLabel("Wybierz czytelnika:");
+    JLabel fname = new JLabel("Wybierz książkę:");
         fname.setFont(new Font("Serif", Font.BOLD, 12));
         fname.setAlignmentX(0.5f);
     add(fname);
 
     add(Box.createRigidArea(new Dimension(0, 6)));
 
-    final JComboBox readerToShowComboBox = new JComboBox(bib.getCzytelnicy().toArray());
-      readerToShowComboBox.setSelectedIndex(-1);
-      readerToShowComboBox.setPreferredSize(new Dimension(450, 22));
-      readerToShowComboBox.setMaximumSize(new Dimension(450, 22));
+    final JComboBox bookToShowComboBox = new JComboBox(bib.getKsiazki().toArray());
+      bookToShowComboBox.setSelectedIndex(-1);
+      bookToShowComboBox.setPreferredSize(new Dimension(450, 22));
+      bookToShowComboBox.setMaximumSize(new Dimension(450, 22));
     
-      readerToShowComboBox.addActionListener (new ActionListener () {
+      bookToShowComboBox.addActionListener (new ActionListener () {
         public void actionPerformed(ActionEvent e) {
-          Czytelnik selectedReader = bib.getCzytelnicy().get(readerToShowComboBox.getSelectedIndex());
+          Ksiazka selectedBook = bib.getKsiazki().get(bookToShowComboBox.getSelectedIndex());
+          ArrayList<Czytelnik> readers = bib.znajdzWypozyczajacychKsiazke(selectedBook);
           textArea.setText("");
-          ArrayList<Ksiazka> books = bib.znajdzKsiazkiCzytelnika(selectedReader);
-          for (Ksiazka book: books) {  
-            textArea.append(book +"\n");
+          for (Czytelnik reader: readers) {  
+            textArea.append(reader +"\n");
           }	
         }
       });
-    add(readerToShowComboBox);
+    add(bookToShowComboBox);
 
     add(Box.createRigidArea(new Dimension(0, 10)));
         
   
-    JLabel bname = new JLabel("Lista wypożyczonych książek:");
+    JLabel bname = new JLabel("Wypożyczone przez:");
         bname.setFont(new Font("Serif", Font.BOLD, 12));
         bname.setAlignmentX(0.5f);
     add(bname);
