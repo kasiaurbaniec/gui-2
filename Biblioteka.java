@@ -122,7 +122,39 @@ public class Biblioteka extends JFrame implements Serializable {
                 ad.setVisible(true);
             }
         });
-        
+        // Pozycja menu: usuń czytelnika
+        JMenuItem removeReaderMenuItem = new JMenuItem("Usuń czytelnika");
+        removeReaderMenuItem.setMnemonic(KeyEvent.VK_C);
+        // Podpiecie akcji pod "Usuń czytelnika"
+        removeReaderMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                ReaderRemoveDialog rrd = new ReaderRemoveDialog(bib);
+                rrd.setVisible(true);
+            }
+        });
+
+        // Pozycja menu: Dodaj nową książkę
+        JMenuItem newBookMenuItem = new JMenuItem("Dodaj nową książkę");
+        newBookMenuItem.setMnemonic(KeyEvent.VK_S);
+        // Podpiecie akcji pod "Dodaj nową ksiązkę"
+        newBookMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                BookDialog bd = new BookDialog(bib);//nowe okno dialogowe
+                bd.setVisible(true);
+            }
+        });
+
+        // Pozycja menu: usuń książkę
+        JMenuItem removeBookMenuItem = new JMenuItem("Usuń książkę");
+        removeBookMenuItem.setMnemonic(KeyEvent.VK_U);
+        // Podpiecie akcji pod "Usuń ksiązkę"
+        removeBookMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                BookRemoveDialog brd = new BookRemoveDialog(bib);
+                brd.setVisible(true);
+            }
+        });
+
         // Pozycja menu: Wypozycz ksiazke czytelnikowi
         JMenuItem lendBookMenuItem = new JMenuItem("Wypozycz ksiazke czytelnikowi");
         lendBookMenuItem.setMnemonic(KeyEvent.VK_W);
@@ -138,6 +170,10 @@ public class Biblioteka extends JFrame implements Serializable {
         lib.add(lendBookMenuItem);
         lib.addSeparator();
         lib.add(newReaderMenuItem);
+        lib.add(newBookMenuItem);
+        lib.addSeparator();
+        lib.add(removeReaderMenuItem);
+        lib.add(removeBookMenuItem);
         lib.addSeparator();
         lib.add(usersMenuItem);        
         lib.add(booksMenuItem);
