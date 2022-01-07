@@ -83,7 +83,18 @@ public class Biblioteka extends JFrame implements Serializable {
             	}		
             }		  
         });
-        
+
+        // Pozycja menu: Wyswietl informację o czytelniku
+        JMenuItem userInfoMenuItem = new JMenuItem("Wyswietl informację o czytelniku");
+        userInfoMenuItem.setMnemonic(KeyEvent.VK_I);
+        userInfoMenuItem.setToolTipText("Wyswietlenie informacji o czytelniku");
+        userInfoMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+              ReaderInformationDialog readerInf = new ReaderInformationDialog(bib);
+              readerInf.setVisible(true);                         	
+            }		  
+        });
+
         // Pozycja menu: Wyswietl ksiazki
         JMenuItem booksMenuItem = new JMenuItem("Wyswietl ksiazki");
         booksMenuItem.setMnemonic(KeyEvent.VK_K);
@@ -191,6 +202,8 @@ public class Biblioteka extends JFrame implements Serializable {
         lib.add(booksMenuItem);
         lib.add(lendsMenuItem);
         lib.addSeparator();
+        lib.add(userInfoMenuItem);
+        lib.addSeparator();
         lib.add(eMenuItem);
 
         // Menu "Pomoc"
@@ -222,7 +235,7 @@ public class Biblioteka extends JFrame implements Serializable {
         setSize(600, 700);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-    }
+  }
 	
 	// Metody get i set
 	
@@ -316,6 +329,13 @@ public class Biblioteka extends JFrame implements Serializable {
 		else 
 			return false;
 	}
-
+  public ArrayList<Ksiazka> znajdzKsiazkiCzytelnika(Czytelnik cz){
+    ArrayList<Ksiazka> ksiazkiCzytelnika = new ArrayList<Ksiazka>();
+    for(Wypozyczenie w : wypozyczenia){
+      if(w.getCzytelnik().equals(cz))
+        ksiazkiCzytelnika.add(w.getKsiazka());
+    }
+    return ksiazkiCzytelnika;
+  }
 	
 }
