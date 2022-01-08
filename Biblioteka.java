@@ -40,7 +40,7 @@ public class Biblioteka extends JFrame implements Serializable {
 		this.ksiazki = new ArrayList<Ksiazka>();
 		this.czytelnicy = new ArrayList<Czytelnik>();
 		this.wypozyczenia = new ArrayList<Wypozyczenie>();
-		this.numer_czytelnika = 1;
+		// this.numer_czytelnika = 1;
 		initUI(this);
 	}
 	// Metoda inicjalizująca GUI
@@ -310,7 +310,9 @@ public class Biblioteka extends JFrame implements Serializable {
 	}
 	
 	public long kolejny_numer_czytelnika() {
-		return numer_czytelnika++;
+    Czytelnik ostatniCzytelnik = czytelnicy.get(czytelnicy.size() - 1);
+    return ostatniCzytelnik.getId() + 1;
+		// return numer_czytelnika++;
 	}
 	
 	public void dodajKsiazke(Ksiazka k) {
@@ -337,7 +339,11 @@ public class Biblioteka extends JFrame implements Serializable {
 		wypozyczenia.remove(w);
     Ksiazka k = w.getKsiazka();
     int ilośćWyozyczonychEgz = k.getIlosc_wypozyczonych_egzemplarzy();
-    k.setIlosc_wypozyczonych_egzemplarzy(ilośćWyozyczonychEgz - 1);
+    for(Ksiazka k1 : ksiazki){
+      if(k1.equals(k)){
+        k1.setIlosc_wypozyczonych_egzemplarzy(ilośćWyozyczonychEgz - 1);
+      }
+    }
 	}
 	
 	public boolean wypozyczKsiazkeCzytelnikowi(Ksiazka k, Czytelnik c) {
