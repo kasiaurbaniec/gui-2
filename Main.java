@@ -1,22 +1,31 @@
 import javax.swing.SwingUtilities;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
-	/**
-	 * @param args
-	 */
+
 	public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-      			Biblioteka bib = new Biblioteka();
-                bib.dodajCzytelnika(new Czytelnik("Jan", "Kowalski", bib.kolejny_numer_czytelnika()));
-                bib.dodajCzytelnika(new Czytelnik("Dariusz", "Malinowski", bib.kolejny_numer_czytelnika()));
-                bib.dodajCzytelnika(new Czytelnik("Wojciech", "Kaminski", bib.kolejny_numer_czytelnika()));
-                bib.dodajKsiazke(new Ksiazka("D. Thomas", "Programming Ruby 1.9", "978-1-934356-08-1", 5));
-                bib.dodajKsiazke(new Ksiazka("J. Loeliger", "Version Control with Git", "978-0-596-52012-0", 2));
-                bib.dodajKsiazke(new Ksiazka("J.E.F. Friedl", "Matering Regular Expressions", "978-0-596-52812-6", 1));
-                bib.setVisible(true);
-            }
-        });
+   SwingUtilities.invokeLater(new Runnable() {
+        public void run() {
+          Biblioteka bib = new Biblioteka();
+          bib.readFromFile("czytelnicyFile.ser");
+          bib.readFromFile("ksiazkiFile.ser");
+          bib.readFromFile("wypozyczeniaFile.ser");
+          // bib.dodajCzytelnika(new Czytelnik("Jan", "Kowalski", bib.kolejny_numer_czytelnika()));
+          // bib.dodajCzytelnika(new Czytelnik("Dariusz", "Malinowski", bib.kolejny_numer_czytelnika()));
+          // bib.dodajCzytelnika(new Czytelnik("Wojciech", "Kaminski", bib.kolejny_numer_czytelnika()));
+          // bib.dodajKsiazke(new Ksiazka("D. Thomas", "Programming Ruby 1.9", "978-1-934356-08-1", 5));
+          // bib.dodajKsiazke(new Ksiazka("J. Loeliger", "Version Control with Git", "978-0-596-52012-0", 2));
+          // bib.dodajKsiazke(new Ksiazka("J.E.F. Friedl", "Matering Regular Expressions", "978-0-596-52812-6", 1));
+          bib.setVisible(true);
+        }
+    });
 	}
 }
 

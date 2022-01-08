@@ -52,7 +52,7 @@ class BookInformationDialog extends JDialog {
           Ksiazka selectedBook = bib.getKsiazki().get(bookToShowComboBox.getSelectedIndex());
           ArrayList<Czytelnik> readers = bib.znajdzWypozyczajacychKsiazke(selectedBook);
           textArea.setText("");
-          for (Czytelnik reader: readers) {  
+          for (Czytelnik reader : readers) {  
             textArea.append(reader +"\n");
           }	
         }

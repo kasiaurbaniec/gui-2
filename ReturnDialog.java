@@ -20,7 +20,7 @@ class ReturnDialog extends JDialog {
     initUI();
   }
 
-  public final void initUI() {
+  public final void initUI(){
     setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
     setModalityType(ModalityType.APPLICATION_MODAL);  
     setTitle("Zwróć książkę");
@@ -49,6 +49,8 @@ class ReturnDialog extends JDialog {
       returnBookButton.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent event) {
           bib.usunWypozyczenie(bib.getWypozyczenia().get(lendToReturnComboBox.getSelectedIndex()));
+          bib.saveObjectToFile("wypozyczeniaFile.ser", bib.getWypozyczenia());
+          bib.saveObjectToFile("ksiazkiFile.ser",bib.getKsiazki());
           dispose();
         }
       });

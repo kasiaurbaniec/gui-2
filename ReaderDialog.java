@@ -57,7 +57,8 @@ class ReaderDialog extends JDialog {
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
             	bib.dodajCzytelnika(new Czytelnik(fnameTextField.getText(), lnameTextField.getText(), bib.kolejny_numer_czytelnika()));
-                dispose();
+              bib.saveObjectToFile("czytelnicyFile.ser", bib.getCzytelnicy());
+              dispose();
             }
         });
 

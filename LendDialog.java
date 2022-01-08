@@ -63,7 +63,9 @@ class LendDialog extends JDialog {
         lendButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
             	bib.wypozyczKsiazkeCzytelnikowi(bib.getKsiazki().get(booksComboBox.getSelectedIndex()), bib.getCzytelnicy().get(readersComboBox.getSelectedIndex()));
-                dispose();
+              bib.saveObjectToFile("wypozyczeniaFile.ser", bib.getWypozyczenia());
+              bib.saveObjectToFile("ksiazkiFile.ser",bib.getKsiazki());
+              dispose();
             }
         });
 

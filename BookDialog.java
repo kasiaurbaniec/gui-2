@@ -79,6 +79,7 @@ private static final long serialVersionUID = 9092551044456132036L;
     addBookButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         bib.dodajKsiazke(new Ksiazka(fauthorTextField.getText(), fTitleTextField.getText(), fisbnTextField.getText(),Integer.parseInt(fegzTextField.getText())));
+        bib.saveObjectToFile("ksiazkiFile.ser",bib.getKsiazki());
         dispose();
       }
     });

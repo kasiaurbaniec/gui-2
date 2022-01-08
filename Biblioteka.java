@@ -2,6 +2,13 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -11,7 +18,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
-
 
 
 // Klasa Biblioteka
@@ -144,6 +150,7 @@ public class Biblioteka extends JFrame implements Serializable {
                 ad.setVisible(true);
             }
         });
+        
         // Pozycja menu: usuń czytelnika
         JMenuItem removeReaderMenuItem = new JMenuItem("Usuń czytelnika");
         removeReaderMenuItem.setMnemonic(KeyEvent.VK_T);
@@ -345,8 +352,9 @@ public class Biblioteka extends JFrame implements Serializable {
   public ArrayList<Ksiazka> znajdzKsiazkiCzytelnika(Czytelnik cz){
     ArrayList<Ksiazka> ksiazkiCzytelnika = new ArrayList<Ksiazka>();
     for(Wypozyczenie w : wypozyczenia){
-      if(w.getCzytelnik().equals(cz))
+      if(w.getCzytelnik().getId()==cz.getId()){
         ksiazkiCzytelnika.add(w.getKsiazka());
+        }
     }
     return ksiazkiCzytelnika;
   }
@@ -354,9 +362,53 @@ public class Biblioteka extends JFrame implements Serializable {
 	public ArrayList<Czytelnik> znajdzWypozyczajacychKsiazke(Ksiazka ks){
     ArrayList<Czytelnik> wypozyczajacy = new ArrayList<Czytelnik>();
     for(Wypozyczenie w : wypozyczenia){
-      if(w.getKsiazka().equals(ks))
+      if(w.getKsiazka().getIsbn().equals(ks.getIsbn())){
         wypozyczajacy.add(w.getCzytelnik());
+        }
     }
     return wypozyczajacy;
+  }
+
+  public static void saveObjectToFile(String fileName, ArrayList<?> objectList) {
+    try{
+      FileOutputStream fos = new FileOutputStream(fileName);
+      BufferedOutputStream bos = new BufferedOutputStream(fos);
+      ObjectOutputStream oos = new ObjectOutputStream(bos);
+      for(Object o : objectList){
+        if(o instanceof Ksiazka){
+          oos.writeObject((Ksiazka)o);
+        }else if(o instanceof Czytelnik){
+          oos.writeObject((Czytelnik)o);
+        }else if(o instanceof Wypozyczenie){
+          oos.writeObject((Wypozyczenie)o);
+        }else System.out.println("Nierozpoznany format");
+      }
+      oos.close();
+    }catch(IOException e){
+      System.out.println(e.getMessage());
+    }
+  }
+  
+  public void readFromFile(String fileName){
+    try{
+      FileInputStream fis = new FileInputStream(fileName);
+      BufferedInputStream bis = new BufferedInputStream(fis);
+      ObjectInputStream ois = new ObjectInputStream(bis);
+      while(bis.available() > 0) {
+        Object o = ois.readObject();
+        if(o instanceof Ksiazka){
+          dodajKsiazke((Ksiazka)o);
+        }else if(o instanceof Czytelnik){
+          dodajCzytelnika((Czytelnik)o);
+        }else if(o instanceof Wypozyczenie){
+          dodajWypozyczenie((Wypozyczenie)o);
+        }else System.out.println("Nierozpoznany format");
+      }
+      ois.close();
+    }catch(IOException e){
+      System.out.println(e.getMessage());
+    }catch(ClassNotFoundException e){
+      System.out.println(e.getMessage());
+    }
   }
 }
